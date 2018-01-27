@@ -17,8 +17,6 @@ image, cnts, hierarchy = cv.findContours(thresimg, cv.RETR_LIST, cv.CHAIN_APPROX
 print(len(cnts))
 
 for i in range(len(cnts)):
-	# area = cv.contourArea(cnts)
-
 	if len(cnts[i]) > 0:
 		rect = cnts[i]
 		x, y, w, h = cv.boundingRect(rect)

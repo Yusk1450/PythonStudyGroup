@@ -24,11 +24,11 @@ print(eyerect)
 
 if len(facerect) > 0:
 	for rect in facerect:
-		cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 0, 255), thickness=1)
+		cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 0, 255), thickness=3)
 
 if len(eyerect) > 0:
 	for rect in eyerect:
-		cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 255, 0), thickness=1)
+		cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 255, 0), thickness=3)
 
 # ウィンドウ名を指定して、画像を表示する
 cv.imshow('image', img)

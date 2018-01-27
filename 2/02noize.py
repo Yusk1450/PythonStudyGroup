@@ -14,15 +14,16 @@ for x in range(w):
 			img[y, x] = 0
 
 # 移動平均フィルタ
-dstimg = cv.blur(img, (10, 10))
+smoothimg = cv.blur(img, (10, 10))
 # メディアンフィルタ
-# dstimg = cv.medianBlur(img, 5)
+medianSmoothimg = cv.medianBlur(img, 3)
 # ガウシアンフィルタ
 # dstimg = cv.GaussianBlur(img, (3, 3), 3)
 
 # ウィンドウ名を指定して、画像を表示する
 cv.imshow('image', img)
-cv.imshow('result', dstimg)
+cv.imshow('smooth', smoothimg)
+cv.imshow('median smooth', medianSmoothimg)
 
 cv.waitKey(0)
 cv.destroyAllWindows()

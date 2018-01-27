@@ -35,13 +35,11 @@ for dir in os.listdir("data/train"):
 			image = np.array(resized_img)																		# 25x25の2次元配列にする→[[R,G,B], [R,G,B]...]
 			image = image.transpose(2, 0, 1)																	# 配列を次元を変換する→[[R,R,R,...], [G,G,G,...], [B,B,B,...]]
 			image = image.reshape(1, image.shape[0] * image.shape[1] * image.shape[2]).astype("float32")[0]		# 1次元配列に変換→[R,R,R,...,G,G,G,...,B,B,B]
-			image_list.append(image / 255.)																		# 0.0〜1.0までの値にして配列に入れる
+			image_list.append(image / 255.)															# 0.0〜1.0までの値にして配列に入れる
 
 image_list = np.array(image_list)		# 画像リストをnumpy配列に変換
 
-# ラベルの配列を1と0からなるラベル配列に変更
-# 0 -> [1,0], 1 -> [0,1] という感じ。
-Y = to_categorical(label_list)
+Y = to_categorical(label_list)			# 正解ラベルを配列にする（0→[1,0], 1→[0,1]）
 
 # 層を構築
 model = Sequential()
@@ -62,28 +60,31 @@ model.add(Activation("softmax"))
 # オプティマイザにAdamを使用
 opt = Adam(lr=0.001)
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
-# エポック数: 学習回数
-model.fit(image_list, Y, nb_epoch=1500, batch_size=100, validation_split=0.1)
+# nb_epoch: 学習回数
+# batch_size: 1度に処理する分量（GPUモードの際は、メモリ制限がある場合がある）
+# model.fit(image_list, Y, nb_epoch=1500, batch_size=100, validation_split=0.1)
+model.fit(image_list, Y, nb_epoch=10, batch_size=100, validation_split=0.1)
 
 total = 0.
 ok_count = 0.
 
 for dir in os.listdir("data/test"):
-	if dir == ".DS_Store":
+	
+	testdir = "data/test/" + dir
+	if os.path.isdir(testdir) == False:
 		continue
 
-	dir1 = "data/test/" + dir 
 	label = 0
 
 	if dir == "apple":
-		label = 0
+		label = 0			# りんごの場合は、0
 	elif dir == "orange":
-		label = 1
+		label = 1			# オレンジの場合は、1
 
-	for file in os.listdir(dir1):
+	for file in os.listdir(testdir):
 		if file != ".DS_Store":
 			label_list.append(label)
-			filepath = dir1 + "/" + file
+			filepath = testdir + "/" + file
 
 			resized_img = Image.open(filepath).resize((25, 25))	
 			image = np.array(resized_img)
