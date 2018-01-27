@@ -9,13 +9,18 @@ img = cv.imread('Lenna.png')
 # グレースケールの画像を作成する
 grayimg = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
+# 顔の分類器の作成
 face_cascade = cv.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')
+# 目の分類器の作成
 eye_cascade = cv.CascadeClassifier('haarcascades/haarcascade_eye.xml')
 
+# 認識した顔配列
 facerect = face_cascade.detectMultiScale(grayimg, scaleFactor=1.1, minNeighbors=1, minSize=(1, 1))
+# 認識した目配列
 eyerect = eye_cascade.detectMultiScale(grayimg)
 
 print(facerect)
+print(eyerect)
 
 if len(facerect) > 0:
 	for rect in facerect:
