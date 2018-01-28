@@ -62,8 +62,8 @@ opt = Adam(lr=0.001)
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 # nb_epoch: 学習回数
 # batch_size: 1度に処理する分量（GPUモードの際は、メモリ制限がある場合がある）
-# model.fit(image_list, Y, nb_epoch=1500, batch_size=100, validation_split=0.1)
-model.fit(image_list, Y, nb_epoch=10, batch_size=100, validation_split=0.1)
+model.fit(image_list, Y, nb_epoch=1500, batch_size=100, validation_split=0.1)
+# model.fit(image_list, Y, nb_epoch=10, batch_size=100, validation_split=0.1)
 
 total = 0.
 ok_count = 0.
